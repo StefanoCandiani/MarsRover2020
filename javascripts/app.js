@@ -1,18 +1,18 @@
 
 // ======================
 
-let mars = [
-  [null, null, null, null, null,  null, null, null, null, null],
-  [null, null, null, null, null,  null, null, null, null, null],
-  [null, null, null, null, null,  null, null, null, null, null],
-  [null, null, null, null, null,  null, null, null, null, null],
-  [null, null, null, null, null,  null, null, null, null, null],
-  [null, null, null, null, null,  null, null, null, null, null],
-  [null, null, null, null, null,  null, null, null, null, null],
-  [null, null, null, null, null,  null, null, null, null, null],
-  [null, null, null, null, null,  null, null, null, null, null],
-  [null, null, null, null, null,  null, null, null, null, null]
-]
+// let mars = [
+//   [null, null, null, null, null,  null, null, null, null, null],
+//   [null, null, null, null, null,  null, null, null, null, null],
+//   [null, null, null, null, null,  null, null, null, null, null],
+//   [null, null, null, null, null,  null, null, null, null, null],
+//   [null, null, null, null, null,  null, null, null, null, null],
+//   [null, null, null, null, null,  null, null, null, null, null],
+//   [null, null, null, null, null,  null, null, null, null, null],
+//   [null, null, null, null, null,  null, null, null, null, null],
+//   [null, null, null, null, null,  null, null, null, null, null],
+//   [null, null, null, null, null,  null, null, null, null, null]
+// ]
 
 
 // ======================
@@ -21,9 +21,9 @@ let mars = [
 
 let rover = {
   direction: "N",
-  x: 5,
-  y: 5,
-  travelLog: [], 
+  x: 0,
+  y: 0,
+  travelLog: [] 
 }
 
 // ======================
@@ -95,10 +95,14 @@ function receive (orders) {
       let loggedTravel = "[" + rover.x + "," + rover.y + "]";
       rover.travelLog.push(loggedTravel);
 
-      // Controls boundaries
-      if(rover.x > 10 || rover.y > 10){
-        console.log("Please do not try to escape Mars ... Thank You :)");
-      }
+      // should Control boundaries
+      // if(rover.x > 10){
+      //   console.log("Please do not try to escape Mars ... Thank You :)");
+      //   rover.x--;
+      // } else if(rover.y > 10) {
+      //   console.log("Please do not try to escape Mars ... Thank You :)");
+      //   rover.y--;        
+      // }
 
     } else if(currentOrder === "b") {
       moveBackward(rover);
@@ -107,11 +111,21 @@ function receive (orders) {
       let loggedTravel = "[" + rover.x + "," + rover.y + "]";
       rover.travelLog.push(loggedTravel);
 
-      // Controls boundaries
-      if(rover.x > 10 || rover.y > 10){
-      console.log("Please do not try to escape Mars ... Thank You :)");
-      }
-
+      //  should Control boundaries
+      // if(rover.x > 10){
+      // console.log("Please do not try to escape Mars ... Thank You :)");
+      // rover.x--;
+      // } else if(rover.x < 0){
+      //   console.log("Please do not try to escape Mars ... Thank You :)");
+      //   rover.x += rover.x;
+      // } else if(rover.y > 10) {
+      //   console.log("Please do not try to escape Mars ... Thank You :)");
+      //   rover.y--;        
+      // } else if(rover.y < 0) {
+      //   console.log("Please do not try to escape Mars ... Thank You :)");
+      //   rover.y += rover.y;
+      // }
+ 
     } else if(currentOrder === "r") {
       turnRight(rover);
     } else if(currentOrder === "l") {
