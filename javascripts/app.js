@@ -1,18 +1,18 @@
 
 // ======================
 
-// let mars = [
-//   [null, null, null, null, null,  null, null, null, null, null],
-//   [null, null, null, null, null,  null, null, null, null, null],
-//   [null, null, null, null, null,  null, null, null, null, null],
-//   [null, null, null, null, null,  null, null, null, null, null],
-//   [null, null, null, null, null,  null, null, null, null, null],
-//   [null, null, null, null, null,  null, null, null, null, null],
-//   [null, null, null, null, null,  null, null, null, null, null],
-//   [null, null, null, null, null,  null, null, null, null, null],
-//   [null, null, null, null, null,  null, null, null, null, null],
-//   [null, null, null, null, null,  null, null, null, null, null]
-// ]
+let mars = [
+  [null, null, null, null, null,  null, null, null, null, null],
+  [null, null, null, null, null,  null, null, null, null, null],
+  [null, null, null, null, null,  null, null, null, null, null],
+  [null, null, null, null, null,  null, null, null, null, null],
+  [null, null, null, null, null,  null, null, null, null, null],
+  [null, null, null, null, null,  null, null, null, null, null],
+  [null, null, null, null, null,  null, null, null, null, null],
+  [null, null, null, null, null,  null, null, null, null, null],
+  [null, null, null, null, null,  null, null, null, null, null],
+  [null, null, null, null, null,  null, null, null, null, null]
+]
 
 
 // ======================
@@ -26,6 +26,7 @@ let rover = {
   travelLog: [] 
 }
 
+
 // ======================
 
 // Cardinal Directions in an Array for more dynamic direction choice
@@ -33,6 +34,23 @@ let directionArray = ["N", "E", "S", "W"];
 let index = 0;
 
 // ======================
+
+// Creates Obstacles
+
+function createObstacles (maxObstacles) {
+  for(let i = 0; i < maxObstacles; i++){
+    let randX = Math.floor(Math.random() * mars.length);
+    let randY = Math.floor(Math.random() * mars[randX].length);
+
+    mars[randX][randY] = "Obstacle";
+  }
+  
+}
+
+createObstacles(3);
+
+// Movements
+
 
 function turnLeft(rover){
   if(index === 0){
@@ -61,26 +79,90 @@ function turnRight(rover){
 
 function moveForward(rover){
   if(rover.direction === "N"){
-    rover.y--;
-  } else if (rover.direction === "W"){
     rover.x--;
+
+    // controls for obstacles
+
+    if(mars[rover.x][rover.y] === "Obstacle"){
+      console.log("There's an obstacle ahead, cannot proceed");
+      rover.x++;
+    }
+
+  } else if (rover.direction === "W"){
+    rover.y--;
+    
+    // controls for obstacles
+
+    if(mars[rover.x][rover.y] === "Obstacle"){
+      console.log("There's an obstacle ahead, cannot proceed");
+      rover.y++;
+    }
+
   } else if (rover.direction === "E"){
-    rover.x++;
-  } else if (rover.direction === "S") {
     rover.y++;
+
+    // controls for obstacles
+
+    if(mars[rover.x][rover.y] === "Obstacle"){
+      console.log("There's an obstacle ahead, cannot proceed");
+      rover.y--;
+    }
+
+  } else if (rover.direction === "S") {
+    rover.x++;
+
+    // controls for obstacles
+
+    if(mars[rovrer.x][rover.y] === "Obstacle"){
+      console.log("There's an obstacle ahead, cannot proceed");
+      rover.x--;
+    }
+
   }
   console.log("moveForward was called");
 }
 
 function moveBackward(rover){
   if(rover.direction === "N"){
-    rover.y++;
-  } else if (rover.direction === "W"){
     rover.x++;
+
+    // controls for obstacles
+
+    if(mars[rover.x][rover.y] === "Obstacle"){
+      console.log("There's an obstacle ahead, cannot proceed");
+      rover.x--;
+    }
+
+  } else if (rover.direction === "W"){
+    rover.y++;
+
+    // controls for obstacles
+
+    if(mars[rover.x][rover.y] === "Obstacle"){
+      console.log("There's an obstacle ahead, cannot proceed");
+      rover.y--;
+    }
+
   } else if (rover.direction === "E"){
-    rover.x--;
-  } else if (rover.direction === "S") {
     rover.y--;
+
+    // controls for obstacles
+
+    if(mars[rover.x][rover.y] === "Obstacle"){
+      console.log("There's an obstacle ahead, cannot proceed");
+      rover.y++;
+    }
+
+  } else if (rover.direction === "S") {
+    rover.x--;
+
+    // controls for obstacles
+
+    if(mars[rover.x][rover.y] === "Obstacle"){
+      console.log("There's an obstacle ahead, cannot proceed");
+      rover.x++;
+    }
+
   }  
   console.log("moveBackward was called");
 }
@@ -88,43 +170,49 @@ function moveBackward(rover){
 function receive (orders) {
   for(let i = 0; i < orders.length; i++){
     currentOrder = orders[i];
+
     if(currentOrder === "f") {
       moveForward(rover);
+
+      // should Control boundaries
+      if(rover.x > 10){
+        console.log("Please do not try to escape Arrakis ... Thank You :)");
+        rover.x--; 
+      } else if(rover.x < 0){
+        console.log("Please do not try to escape Arrakis ... Thank You :)");
+        rover.x++; 
+      } else if(rover.y > 10) {
+        console.log("Please do not try to escape Arrakis ... Thank You :)");
+        rover.y--;
+      } else if(rover.y < 0) {
+        console.log("Please do not try to escape Arrakis ... Thank You :)");
+        rover.y++;
+      }
 
       // Pushes Coordinates for Travel Log
       let loggedTravel = "[" + rover.x + "," + rover.y + "]";
       rover.travelLog.push(loggedTravel);
 
-      // should Control boundaries
-      // if(rover.x > 10){
-      //   console.log("Please do not try to escape Mars ... Thank You :)");
-      //   rover.x--;
-      // } else if(rover.y > 10) {
-      //   console.log("Please do not try to escape Mars ... Thank You :)");
-      //   rover.y--;        
-      // }
-
     } else if(currentOrder === "b") {
       moveBackward(rover);
+      //  should Control boundaries
+      if(rover.x > 10){
+        console.log("Please do not try to escape Arrakis ... Thank You :)");
+        rover.x--;
+      } else if(rover.x < 0){
+        console.log("Please do not try to escape Arrakis ... Thank You :)");
+        rover.x++;
+      } else if(rover.y > 10) {
+        console.log("Please do not try to escape Arrakis ... Thank You :)");
+        rover.y--;    
+      } else if(rover.y < 0) {
+        console.log("Please do not try to escape Arrakis ... Thank You :)");
+        rover.y++;
+      }
 
       //Pushes Coordinates for Travel Log
       let loggedTravel = "[" + rover.x + "," + rover.y + "]";
       rover.travelLog.push(loggedTravel);
-
-      //  should Control boundaries
-      // if(rover.x > 10){
-      // console.log("Please do not try to escape Mars ... Thank You :)");
-      // rover.x--;
-      // } else if(rover.x < 0){
-      //   console.log("Please do not try to escape Mars ... Thank You :)");
-      //   rover.x += rover.x;
-      // } else if(rover.y > 10) {
-      //   console.log("Please do not try to escape Mars ... Thank You :)");
-      //   rover.y--;        
-      // } else if(rover.y < 0) {
-      //   console.log("Please do not try to escape Mars ... Thank You :)");
-      //   rover.y += rover.y;
-      // }
  
     } else if(currentOrder === "r") {
       turnRight(rover);
@@ -138,3 +226,13 @@ function receive (orders) {
   }
   console.log(rover.travelLog);
 }
+
+// =================
+
+// Random generator
+
+function randomGenerator (maxNum){
+  return randomNum = Math.floor(Math.random * maxNum);
+}
+
+
