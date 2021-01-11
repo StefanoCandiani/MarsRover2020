@@ -113,7 +113,7 @@ function moveForward(rover){
 
     // controls for obstacles
 
-    if(mars[rovrer.x][rover.y] === "Obstacle"){
+    if(mars[rover.x][rover.y] === "Obstacle"){
       console.log("There's an obstacle ahead, cannot proceed");
       rover.x--;
     }
